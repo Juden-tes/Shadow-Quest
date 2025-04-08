@@ -61,6 +61,31 @@ print("""
 
 
 while True:
+    print("""
+Welcome to your adventure! Here's a quick guide to help you navigate the game:
+
++ Action Economy:
+Every day and night, you’re granted a limited number of actions. Every decision matters—choose wisely how you spend each one!
+
++ Resting and Healing:
+Taking time to sleep at the end of a day or night replenishes your energy, allowing you to recover some health. This small healing boost is essential to keep you fighting fit for the challenges ahead.
+
++ Dungeon Delving:
+Venturing into the dungeon costs you 2 actions per entry. Beware that if you enter the dungeon at night, the challenges are tougher—enemies become stronger and you may find your defenses weakened. Additionally, every time you finish a level inside the dungeon, it consumes 2 actions, so plan your exploration carefully.
+
++ Daytime Shop:
+The shop only opens during the day, giving you a chance to purchase valuable items with your hard-earned coins. These items provide important buffs that can help you turn the tide in combat.
+
++ Quests and Progression:
+As you defeat enemies and conquer dungeon levels, you’ll complete quests. These quests reward you with coins and experience points, which are crucial for leveling up. Leveling up not only makes you stronger but also unlocks new abilities to enhance your gameplay.
+
++ Strategic Decisions:
+Balance your actions between exploring the dungeon, resting to regain health, and visiting the shop to equip yourself with the best gear. The choices you make during the day and night will shape your journey and determine how powerful you become.
+
+Remember, every action counts—plan your journey, manage your resources, and strive to become a legend in this thrilling adventure!
+          """)
+
+
     start_game = input("\nDo you want to continue? y = yes || x = exit: ").lower()
 
     if start_game == 'y':
@@ -141,6 +166,7 @@ while player.health > 0:
         print("C) Check Quests")
         print("I) Check Inventory / Equip armour")
         print("E) End the Day early")
+        print("X) Exit")
 
         choice = input("Choose an option ➜ ").strip().lower()
         if choice == "a":
@@ -164,6 +190,9 @@ while player.health > 0:
             if input("Do you want to equip an armour item? (y/n) ➜ ").strip().lower() == "y":
                 player.equip_armour()
         elif choice == "e":
+            break
+        elif choice == "x":
+            exit()
             break
         else:
             print("Invalid option!")
