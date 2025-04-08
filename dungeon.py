@@ -15,6 +15,7 @@ class Dungeon:
             hp  = int(m.health * mult)
             atk = int(m.attack * mult)
             dfs = int(m.defense * mult)
+            
             # Create a new monster using the template and store its base stats.
             mob = Monster(m.name, hp, atk, dfs, element=getattr(m, "element", "none"))
             # Apply day/night effects only for the monster.
@@ -51,6 +52,7 @@ class Dungeon:
                 else:
                     continue
             else:  # Basic Attack as default
+
                 print(f"{player.name} attacks {monster.name} with a basic strike!")
                 player.attack_monster(monster)
             if monster.health <= 0:
@@ -74,5 +76,6 @@ class Dungeon:
             if player.health <= 0:
                 return  # End dungeon run if player dies.
             player.enemies_defeated += 1
+            
         print("🏆  Floor cleared! The dungeon grows more dangerous...")
         self.level += 1

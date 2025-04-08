@@ -18,6 +18,7 @@ class Player:
         self.equipped_armour = 0
         self.inventory = []
         self.enemies_defeated = 0
+        
         # Store base attributes for day/night modifications
         self.base_health = 100
         self.base_attack = 10
@@ -39,6 +40,7 @@ class Player:
         self.defense += 1
         self.health += 20
         self.mana += 10
+
         # Update the base attributes upon leveling up
         self.base_health = self.health
         self.base_attack = self.attack
@@ -70,6 +72,7 @@ class Player:
         choice = input("Choose an armour to equip (or press Enter to cancel): ").strip()
         if choice.isdigit() and 1 <= int(choice) <= len(available):
             chosen = available[int(choice) - 1]
+
             self.equipped_armour = armour_items[chosen]
             print(f"You equipped {chosen}. Armour bonus is now +{self.equipped_armour}.")
         else:
@@ -128,4 +131,5 @@ class Player:
         print(f"  Coins: {self.coins}")
         print(f"  Enemies Defeated: {self.enemies_defeated}")
         print("  Abilities: " + ", ".join(a.name for a in self.abilities))
+
         print("  Inventory: " + (", ".join(self.inventory) if self.inventory else "Empty"))

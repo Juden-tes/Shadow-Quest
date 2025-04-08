@@ -4,12 +4,13 @@ class DayNightMode:
 
     def set_time(self, choice):
         """Set the time of day based on the player's choice."""
+        
         if choice.lower() in ["day", "night"]:
             self.current_time = choice.lower()
             print(f"It is now {self.current_time}.")
         else:
             print("Invalid choice! Please enter 'day' or 'night'.")
-
+            
     def xp_bonus(self):
         return 1.5 if self.current_time == "night" else 1.0
 
