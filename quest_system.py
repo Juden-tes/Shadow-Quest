@@ -1,5 +1,6 @@
 class Quest:
-    def _init_(self, description: str,
+
+    def __init__(self, description: str,
                  reward_coins: int,
                  reward_xp: int,
                  required_kills: int) -> None:
@@ -24,18 +25,19 @@ class Quest:
             print(f"📜  Quest completed: {self.description} "
                   f"(+{self.reward_coins} coins, +{self.reward_xp} XP)")
 
-
 class QuestSystem:
     """
     Holds a list of quests and offers two convenience helpers:
       • show_quests()     – print a tidy list for the player
       • update_quests()   – run after combat to unlock finished quests
     """
-    def _init_(self, quests=None) -> None:
+    
+    def __init__(self, quests=None) -> None:
         self.quests = quests if quests else []
 
     def show_quests(self) -> None:
-        print("\n📜  *Quests*")
+        print("\n📜  **Quests**")
+
         for q in self.quests:
             status = "✓" if q.completed else "…"
             print(f" {status}  {q.description}"

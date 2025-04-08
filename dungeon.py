@@ -10,14 +10,16 @@ class Dungeon:
     def spawn_monsters(self, day_night):
         scaled = []
         for m in self.base_monsters:
+            # Scale monster stats based on the current dungeon level
             mult = 1 + 0.25 * (self.level - 1)
             hp  = int(m.health * mult)
             atk = int(m.attack * mult)
             dfs = int(m.defense * mult)
-            # Assume base monsters may have an element attribute; if not, default to "none".
+            
+            # Create a new monster using the template and store its base stats.
             mob = Monster(m.name, hp, atk, dfs, element=getattr(m, "element", "none"))
-            if day_night.current_time == "night":
-                day_night.apply_day_night_effects(player=None, monster=mob)
+            # Apply day/night effects only for the monster.
+            day_night.apply_day_night_effects(None, mob)
             scaled.append(mob)
         return scaled
 
@@ -31,7 +33,6 @@ class Dungeon:
             print("  F) Flee")
             action = input("Choose an option ➜ ").strip().lower()
             if action == "i":
-                # Show inventory without costing an action.
                 if player.inventory:
                     print("Your Inventory:", ", ".join(player.inventory))
                 else:
@@ -44,15 +45,14 @@ class Dungeon:
                 else:
                     print("Flee attempt failed! You must fight!")
             elif action == "u":
-                # Use an ability – if canceled, repeat the loop.
                 if player.use_ability(monster):
-                    # After ability use, check if monster is defeated.
                     if monster.health <= 0:
                         print(f"{monster.name} is defeated!")
                         return "defeated"
                 else:
-                    continue  # Ability canceled; show options again.
-            else:  # Default: Basic Attack
+                    continue
+            else:  # Basic Attack as default
+
                 print(f"{player.name} attacks {monster.name} with a basic strike!")
                 player.attack_monster(monster)
             if monster.health <= 0:
@@ -72,9 +72,10 @@ class Dungeon:
             outcome = self.handle_encounter(player, mob)
             if outcome == "fled":
                 print("You escaped this encounter. Moving on...")
-                continue  # No reward if you flee.
+                continue
             if player.health <= 0:
-                return  # End dungeon if player dies.
+                return  # End dungeon run if player dies.
             player.enemies_defeated += 1
+            
         print("🏆  Floor cleared! The dungeon grows more dangerous...")
         self.level += 1

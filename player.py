@@ -18,6 +18,11 @@ class Player:
         self.equipped_armour = 0
         self.inventory = []
         self.enemies_defeated = 0
+        
+        # Store base attributes for day/night modifications
+        self.base_health = 100
+        self.base_attack = 10
+        self.base_defense = 5
 
     def attack_monster(self, monster):
         print(f"{self.name} attacks {monster.name} with a basic strike!")
@@ -35,21 +40,22 @@ class Player:
         self.defense += 1
         self.health += 20
         self.mana += 10
-        print(f"{self.name} leveled up! Now at level {self.level}")
 
+        # Update the base attributes upon leveling up
+        self.base_health = self.health
+        self.base_attack = self.attack
+        self.base_defense = self.defense
+        print(f"{self.name} leveled up! Now at level {self.level}")
         if self.level == 2:
-            # Unlock Water Attack
             self.abilities.append(Ability("Water Attack", element="water", mana_cost=12, base_bonus=5))
             print(f"{self.name} unlocked a new ability: Water Attack!")
         elif self.level == 3:
-            # Unlock Dirt Attack
             self.abilities.append(Ability("Dirt Attack", element="dirt", mana_cost=14, base_bonus=7))
             print(f"{self.name} unlocked a new ability: Dirt Attack!")
         elif self.level == 4:
-            # Unlock Air Attack
             self.abilities.append(Ability("Air Attack", element="air", mana_cost=16, base_bonus=9))
             print(f"{self.name} unlocked a new ability: Air Attack!")
-    
+
     def equip_armour(self):
         # List armour items in inventory
         armour_items = {
@@ -65,20 +71,21 @@ class Player:
             print(f"  {idx}) {item} (+{armour_items[item]} armour)")
         choice = input("Choose an armour to equip (or press Enter to cancel): ").strip()
         if choice.isdigit() and 1 <= int(choice) <= len(available):
-            chosen = available[int(choice)-1]
+            chosen = available[int(choice) - 1]
+
             self.equipped_armour = armour_items[chosen]
             print(f"You equipped {chosen}. Armour bonus is now +{self.equipped_armour}.")
         else:
             print("No armour equipped.")
 
     def learn_skill(self, skill):
-        if skill not in self.skills:
-            self.skills.append(skill)
-            print(f"{self.name} learned a new skill: {skill}")
+        # This function could be extended to maintain a list of skills.
+        # For now, we simply print a message.
+        print(f"{self.name} learned a new skill: {skill}")
 
     def use_item(self, item):
         if item == "Time Amulet":
-            #DAYNIGHT MODE
+            # DAY/NIGHT MODE effect: the Time Amulet shatters and triggers a change.
             self.inventory.remove(item)
             print("The Time Amulet shatters – reality shifts around you!")
         elif item == "Med Kit":
@@ -124,4 +131,5 @@ class Player:
         print(f"  Coins: {self.coins}")
         print(f"  Enemies Defeated: {self.enemies_defeated}")
         print("  Abilities: " + ", ".join(a.name for a in self.abilities))
+
         print("  Inventory: " + (", ".join(self.inventory) if self.inventory else "Empty"))

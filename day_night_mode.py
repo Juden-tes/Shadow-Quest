@@ -1,45 +1,51 @@
 class DayNightMode:
     def __init__(self):
-        self.current_time = "day"  # Default
+        self.current_time = "day"  # Default value
 
     def set_time(self, choice):
-        """Set time based on player choice"""
+        """Set the time of day based on the player's choice."""
+        
         if choice.lower() in ["day", "night"]:
             self.current_time = choice.lower()
             print(f"It is now {self.current_time}.")
         else:
             print("Invalid choice! Please enter 'day' or 'night'.")
-
-    # returns the XP multiplier for the current slot
+            
     def xp_bonus(self):
         return 1.5 if self.current_time == "night" else 1.0
 
-    # flip the time of day in one call
     def toggle(self):
-            self.current_time = "night" if self.current_time == "day" else "day"
-            print(f"\n🌗  It is now {self.current_time.upper()}.")
+        self.current_time = "night" if self.current_time == "day" else "day"
+        print(f"\n🌗  It is now {self.current_time.upper()}.")
 
-    # how many things the player may do in the current time‑slot
     def actions_allowed(self):
         return 3 if self.current_time == "day" else 4
 
     def apply_day_night_effects(self, player, monster):
-        """Applies effects based on the time of day."""
+        """
+        Applies the day/night effects using the base attributes to avoid cumulative modifications.
+        If 'player' is None, only the monster's attributes are adjusted.
+        """
         if self.current_time == "night":
-            monster.attack *= 1.2  # Monster + 20% 
-            monster.defense *= 1.2
-            monster.health *= 1.2
-            player.attack *= 0.9  # Player - 10% 
-            player.defense *= 0.9
-            player.health *= 0.9
-        else:  # Day
-            monster.attack *= 0.8  # Monster - 20% 
-            monster.defense *= 0.8
-            monster.health *= 0.8
-            player.attack *= 1.1  # Player + 10% 
-            player.defense *= 1.1
-            player.health *= 1.1
+            # Monster: +20% effect
+            monster.health = int(monster.base_health * 1.2)
+            monster.attack = int(monster.base_attack * 1.2)
+            monster.defense = int(monster.base_defense * 1.2)
+            # Player: -10% effect
+            if player:
+                player.attack = int(player.base_attack * 0.9)
+                player.defense = int(player.base_defense * 0.9)
+        else:  # Daytime
+            # Monster: -20% effect
+            monster.health = int(monster.base_health * 0.8)
+            monster.attack = int(monster.base_attack * 0.8)
+            monster.defense = int(monster.base_defense * 0.8)
+            # Player: +10% effect
+            if player:
+                player.attack = int(player.base_attack * 1.1)
+                player.defense = int(player.base_defense * 1.1)
+                
 
     def is_shop_open(self):
-        """Checks if the shop is open."""
+        """Checks if the shop is open (only open during daytime)."""
         return self.current_time == "day"

@@ -1,5 +1,7 @@
 class FightSystem:
     def start_fight(self, player, monster, day_night):
+        # Apply day/night effects to both the player and the monster before starting combat
+        day_night.apply_day_night_effects(player, monster)
         print(f"Fight started between {player.name} and {monster.name}")
         while player.health > 0 and monster.health > 0:
             player.attack_monster(monster)
