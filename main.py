@@ -31,7 +31,7 @@ def clear():
 
 def show_quests():
     print("\n📜  **Quests**")
-    for q in qs:
+    for q in qs.quests:
         status = "✓" if q.completed else "…"
         print(f" {status}  {q.description}  (reward {q.reward_coins}c)")
 
